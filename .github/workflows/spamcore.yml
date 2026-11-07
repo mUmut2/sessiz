@@ -1,0 +1,29 @@
+name: SpamCore tests
+
+# Cheap Linux job (Linux minutes are 1x; macOS is 10x).
+on:
+  push:
+    paths:
+      - "Packages/SpamCore/**"
+      - ".github/workflows/spamcore.yml"
+  pull_request:
+    paths:
+      - "Packages/SpamCore/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: spamcore-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    container: swift:6.0
+    steps:
+      - uses: actions/checkout@v4
+      - name: swift test
+        working-directory: Packages/SpamCore
+        run: swift test

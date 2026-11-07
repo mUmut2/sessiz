@@ -1,0 +1,148 @@
+# XcodeGen spec. Sessiz.xcodeproj is NOT committed; CI (and you, on a Mac) generate it:
+#   xcodegen generate
+#
+# >>> CHANGE THESE THREE VALUES to your real identifiers (the only place; everything else derives from them):
+#     BASE_BUNDLE_ID, APP_GROUP_ID, DEVELOPMENT_TEAM
+name: Sessiz
+
+options:
+  minimumXcodeGenVersion: 2.38.0
+  createIntermediateGroups: true
+  generateEmptyDirectories: false
+  deploymentTarget:
+    iOS: "17.0"
+
+packages:
+  SpamCore:
+    path: Packages/SpamCore
+  GoogleMobileAds:
+    url: https://github.com/googleads/swift-package-manager-google-mobile-ads.git
+    exactVersion: 13.12.0
+
+settings:
+  base:
+    BASE_BUNDLE_ID: com.umutsolmaz.sessiz        # app = this; extensions = this + ".CallDirectory" / ".MessageFilter"
+    APP_GROUP_ID: group.com.umutsolmaz.sessiz    # must also be created at developer.apple.com
+    DEVELOPMENT_TEAM: ""                         # 10-char Apple Team ID; empty is fine for unsigned CI builds
+    MARKETING_VERSION: "0.1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    SWIFT_VERSION: "5.0"
+    IPHONEOS_DEPLOYMENT_TARGET: "17.0"
+    TARGETED_DEVICE_FAMILY: "1"
+    CODE_SIGN_STYLE: Automatic
+    # Ads (Google AdMob). These are Google's public SAMPLE ids: banners say "Test Ad".
+    # Before the App Store: create the app + a banner unit in AdMob and paste the real ids here (SETUP.md section 7).
+    ADS_ENABLED: "YES"                                   # "NO" removes every ad and the ads wording in the app
+    ADMOB_APP_ID: "ca-app-pub-3940256099942544~1458002511"
+    ADMOB_BANNER_UNIT_ID: "ca-app-pub-3940256099942544/2435281174"
+
+targets:
+  App:
+    type: application
+    platform: iOS
+    sources:
+      - App/Sources
+      - App/Resources
+    dependencies:
+      - package: SpamCore
+        product: SpamCore
+      - package: GoogleMobileAds
+        product: GoogleMobileAds
+      - target: CallDirectoryExtension
+      - target: MessageFilterExtension
+    settings:
+      base:
+        PRODUCT_NAME: Sessiz
+        PRODUCT_BUNDLE_IDENTIFIER: $(BASE_BUNDLE_ID)
+        ENABLE_PREVIEWS: YES
+    info:
+      path: Generated/App-Info.plist
+      properties:
+        CFBundleDisplayName: Sessiz
+        CFBundleIdentifier: $(PRODUCT_BUNDLE_IDENTIFIER)
+        CFBundleExecutable: $(EXECUTABLE_NAME)
+        CFBundleName: $(PRODUCT_NAME)
+        CFBundlePackageType: APPL
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        LSRequiresIPhoneOS: true
+        UILaunchScreen: {}
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+        ITSAppUsesNonExemptEncryption: false
+        SessizAppGroupID: $(APP_GROUP_ID)
+        SessizAdsEnabled: $(ADS_ENABLED)
+        SessizAdBannerUnitID: $(ADMOB_BANNER_UNIT_ID)
+        GADApplicationIdentifier: $(ADMOB_APP_ID)
+        SKAdNetworkItems:
+          - SKAdNetworkIdentifier: cstr6suwn9.skadnetwork
+    entitlements:
+      path: Generated/App.entitlements
+      properties:
+        com.apple.security.application-groups:
+          - $(APP_GROUP_ID)
+
+  CallDirectoryExtension:
+    type: app-extension
+    platform: iOS
+    sources:
+      - Extensions/CallDirectory
+    dependencies:
+      - package: SpamCore
+        product: SpamCore
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: $(BASE_BUNDLE_ID).CallDirectory
+        SKIP_INSTALL: YES
+    info:
+      path: Generated/CallDirectory-Info.plist
+      properties:
+        CFBundleDisplayName: Sessiz Arama Engelleme
+        CFBundleIdentifier: $(PRODUCT_BUNDLE_IDENTIFIER)
+        CFBundleExecutable: $(EXECUTABLE_NAME)
+        CFBundleName: $(PRODUCT_NAME)
+        CFBundlePackageType: XPC!
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        SessizAppGroupID: $(APP_GROUP_ID)
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.callkit.call-directory
+          NSExtensionPrincipalClass: $(PRODUCT_MODULE_NAME).CallDirectoryHandler
+    entitlements:
+      path: Generated/CallDirectory.entitlements
+      properties:
+        com.apple.security.application-groups:
+          - $(APP_GROUP_ID)
+
+  MessageFilterExtension:
+    type: app-extension
+    platform: iOS
+    sources:
+      - Extensions/MessageFilter
+    dependencies:
+      - package: SpamCore
+        product: SpamCore
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: $(BASE_BUNDLE_ID).MessageFilter
+        SKIP_INSTALL: YES
+    info:
+      path: Generated/MessageFilter-Info.plist
+      properties:
+        CFBundleDisplayName: Sessiz Mesaj Filtresi
+        CFBundleIdentifier: $(PRODUCT_BUNDLE_IDENTIFIER)
+        CFBundleExecutable: $(EXECUTABLE_NAME)
+        CFBundleName: $(PRODUCT_NAME)
+        CFBundlePackageType: XPC!
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        SessizAppGroupID: $(APP_GROUP_ID)
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.identitylookup.message-filter
+          NSExtensionPrincipalClass: $(PRODUCT_MODULE_NAME).MessageFilterHandler
+          NSExtensionAttributes: {}
+    entitlements:
+      path: Generated/MessageFilter.entitlements
+      properties:
+        com.apple.security.application-groups:
+          - $(APP_GROUP_ID)

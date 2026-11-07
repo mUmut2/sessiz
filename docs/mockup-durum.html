@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sessiz - Durum ekranı taslağı</title>
+<style>
+  :root { --navy:#03045e; --cyan:#00b4d8; --light:#caf0f8; --darkbg:#020234; }
+  * { box-sizing: border-box; margin: 0; }
+  body { background:#e8e8ed; font-family: -apple-system, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif; padding:32px 16px; color:#222; }
+  h1 { font-size:18px; text-align:center; font-weight:600; }
+  p.note { font-size:13px; text-align:center; margin:8px auto 24px; max-width:640px; color:#555; }
+  .row { display:flex; gap:32px; justify-content:center; flex-wrap:wrap; }
+  figure { display:flex; flex-direction:column; align-items:center; gap:12px; }
+  figcaption { font-size:13px; color:#444; }
+
+  .phone { width:390px; height:844px; border-radius:48px; border:10px solid #111; overflow:hidden; position:relative; display:flex; flex-direction:column; }
+  .light { --bg:var(--light); --surface:#fff; --text:var(--navy); --sel:var(--navy); --btn:var(--navy); --btntext:var(--light); background:var(--bg); color:var(--text); }
+  .dark  { --bg:var(--darkbg); --surface:var(--navy); --text:var(--light); --sel:var(--cyan); --btn:var(--cyan); --btntext:var(--navy); background:var(--bg); color:var(--text); }
+  .sec { opacity:.7; }
+
+  .status { height:50px; padding:18px 32px 0; display:flex; justify-content:space-between; font-weight:600; font-size:15px; }
+  .content { flex:1; overflow:hidden; padding:0 16px; }
+  .title { font-size:34px; font-weight:700; margin:24px 4px 16px; }
+  .header { font-size:13px; text-transform:uppercase; margin:24px 16px 8px; opacity:.7; }
+  .group { background:var(--surface); border-radius:12px; padding:0 16px; }
+  .line { display:flex; justify-content:space-between; align-items:center; min-height:44px; font-size:17px; }
+  .line + .line, .block { border-top:1px solid color-mix(in srgb, var(--text) 15%, transparent); }
+  .block { padding:12px 0; font-size:15px; line-height:1.4; }
+  .block div + div { margin-top:8px; }
+  .btn { display:flex; align-items:center; justify-content:center; height:44px; border-radius:8px; font-weight:600; font-size:17px; margin:12px 0; }
+  .primary { background:var(--btn); color:var(--btntext); }
+  .secondary { border:1px solid color-mix(in srgb, var(--text) 30%, transparent); }
+  .footer { font-size:13px; margin:8px 16px 0; opacity:.7; line-height:1.35; }
+  .toggle { width:51px; height:31px; border-radius:16px; background:color-mix(in srgb, var(--text) 25%, transparent); position:relative; flex:none; }
+  .toggle::after { content:""; position:absolute; top:2px; left:2px; width:27px; height:27px; border-radius:50%; background:#fff; }
+  .toggle.on { background:var(--cyan); }
+  .toggle.on::after { left:22px; }
+
+  .tabbar { height:84px; border-top:1px solid color-mix(in srgb, var(--text) 15%, transparent); background:var(--surface); display:flex; padding-top:8px; }
+  .tab { flex:1; display:flex; flex-direction:column; align-items:center; gap:2px; font-size:10px; opacity:.6; }
+  .tab.active { opacity:1; color:var(--sel); font-weight:600; }
+  .tab svg { width:26px; height:26px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+  .homebar { position:absolute; bottom:8px; left:50%; transform:translateX(-50%); width:134px; height:5px; border-radius:3px; background:var(--text); opacity:.9; }
+</style>
+</head>
+<body>
+<h1>Sessiz: Durum ekranı taslağı</h1>
+<p class="note">Bu bir çizimdir, gerçek uygulamadan alınmış ekran görüntüsü değildir. Renkler, yazılar ve yerleşim koddaki tasarıma göre hazırlandı; gerçek ekranda iOS'un yazı tipi ve boşlukları küçük farklar gösterebilir.</p>
+
+<div class="row">
+
+<!-- 1: light, setup needed -->
+<figure>
+<div class="phone light">
+  <div class="status"><span>9:41</span><span>100%</span></div>
+  <div class="content">
+    <div class="title">Durum</div>
+    <div class="header">Aramalar</div>
+    <div class="group">
+      <div class="line"><span>Durum</span><span class="sec">Kapalı</span></div>
+      <div class="block">
+        <div>1. Ayarlar &gt; Uygulamalar &gt; Telefon &gt; Arama Engelleme ve Kimlik'i açın.</div>
+        <div>2. "Sessiz Arama Engelleme"yi açın.</div>
+      </div>
+      <div class="btn primary">Ayarlar'ı aç</div>
+    </div>
+    <div class="header">Mesajlar</div>
+    <div class="group">
+      <div class="line"><span>Durum</span><span class="sec">Kapalı</span></div>
+      <div class="line"><span>Kurulumu tamamladım</span><span class="toggle"></span></div>
+      <div class="block">
+        <div>1. Ayarlar &gt; Mesajlar &gt; Bilinmeyen ve Spam'i açın.</div>
+        <div>2. SMS Filtreleme'de "Sessiz Mesaj Filtresi"ni seçin.</div>
+        <div>3. Buraya dönüp "Kurulumu tamamladım"ı açın.</div>
+      </div>
+      <div class="btn secondary">Ayarlar'ı aç</div>
+    </div>
+    <div class="footer">iPhone, mesaj filtresinin açık olup olmadığını uygulamalara söylemez. Kurulumu bitirince yukarıdan kendiniz işaretleyin.</div>
+  </div>
+  <div class="tabbar">
+    <div class="tab active"><svg viewBox="0 0 24 24"><path d="M4 6l1.5 1.5L8 5M4 12l1.5 1.5L8 11M4 18l1.5 1.5L8 17M11 6.5h9M11 12.5h9M11 18.5h9"/></svg>Durum</div>
+    <div class="tab"><svg viewBox="0 0 24 24"><path d="M6 3h3l2 5-2.5 1.5a11 11 0 005 5L15 12l5 2v3a2 2 0 01-2 2A15 15 0 014 5a2 2 0 012-2z"/></svg>Numaralar</div>
+    <div class="tab"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/></svg>Mesajlar</div>
+    <div class="tab"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg>Ayarlar</div>
+  </div>
+  <div class="homebar"></div>
+</div>
+<figcaption>Açık mod: kurulum gerekli</figcaption>
+</figure>
+
+<!-- 2: dark, setup needed -->
+<figure>
+<div class="phone dark">
+  <div class="status"><span>9:41</span><span>100%</span></div>
+  <div class="content">
+    <div class="title">Durum</div>
+    <div class="header">Aramalar</div>
+    <div class="group">
+      <div class="line"><span>Durum</span><span class="sec">Kapalı</span></div>
+      <div class="block">
+        <div>1. Ayarlar &gt; Uygulamalar &gt; Telefon &gt; Arama Engelleme ve Kimlik'i açın.</div>
+        <div>2. "Sessiz Arama Engelleme"yi açın.</div>
+      </div>
+      <div class="btn primary">Ayarlar'ı aç</div>
+    </div>
+    <div class="header">Mesajlar</div>
+    <div class="group">
+      <div class="line"><span>Durum</span><span class="sec">Kapalı</span></div>
+      <div class="line"><span>Kurulumu tamamladım</span><span class="toggle"></span></div>
+      <div class="block">
+        <div>1. Ayarlar &gt; Mesajlar &gt; Bilinmeyen ve Spam'i açın.</div>
+        <div>2. SMS Filtreleme'de "Sessiz Mesaj Filtresi"ni seçin.</div>
+        <div>3. Buraya dönüp "Kurulumu tamamladım"ı açın.</div>
+      </div>
+      <div class="btn secondary">Ayarlar'ı aç</div>
+    </div>
+    <div class="footer">iPhone, mesaj filtresinin açık olup olmadığını uygulamalara söylemez. Kurulumu bitirince yukarıdan kendiniz işaretleyin.</div>
+  </div>
+  <div class="tabbar">
+    <div class="tab active"><svg viewBox="0 0 24 24"><path d="M4 6l1.5 1.5L8 5M4 12l1.5 1.5L8 11M4 18l1.5 1.5L8 17M11 6.5h9M11 12.5h9M11 18.5h9"/></svg>Durum</div>
+    <div class="tab"><svg viewBox="0 0 24 24"><path d="M6 3h3l2 5-2.5 1.5a11 11 0 005 5L15 12l5 2v3a2 2 0 01-2 2A15 15 0 014 5a2 2 0 012-2z"/></svg>Numaralar</div>
+    <div class="tab"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/></svg>Mesajlar</div>
+    <div class="tab"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg>Ayarlar</div>
+  </div>
+  <div class="homebar"></div>
+</div>
+<figcaption>Koyu mod: kurulum gerekli</figcaption>
+</figure>
+
+<!-- 3: light, done -->
+<figure>
+<div class="phone light">
+  <div class="status"><span>9:41</span><span>100%</span></div>
+  <div class="content">
+    <div class="title">Durum</div>
+    <div class="header">Aramalar</div>
+    <div class="group">
+      <div class="line"><span>Durum</span><span class="sec">Açık</span></div>
+    </div>
+    <div class="header">Mesajlar</div>
+    <div class="group">
+      <div class="line"><span>Durum</span><span class="sec">Açık (senin onayınla)</span></div>
+      <div class="line"><span>Kurulumu tamamladım</span><span class="toggle on"></span></div>
+    </div>
+  </div>
+  <div class="tabbar">
+    <div class="tab active"><svg viewBox="0 0 24 24"><path d="M4 6l1.5 1.5L8 5M4 12l1.5 1.5L8 11M4 18l1.5 1.5L8 17M11 6.5h9M11 12.5h9M11 18.5h9"/></svg>Durum</div>
+    <div class="tab"><svg viewBox="0 0 24 24"><path d="M6 3h3l2 5-2.5 1.5a11 11 0 005 5L15 12l5 2v3a2 2 0 01-2 2A15 15 0 014 5a2 2 0 012-2z"/></svg>Numaralar</div>
+    <div class="tab"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/></svg>Mesajlar</div>
+    <div class="tab"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg>Ayarlar</div>
+  </div>
+  <div class="homebar"></div>
+</div>
+<figcaption>Açık mod: kurulum tamam (sakin ekran)</figcaption>
+</figure>
+
+</div>
+</body>
+</html>

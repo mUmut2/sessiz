@@ -1,0 +1,12 @@
+.DS_Store
+*.xcodeproj
+*.xcworkspace
+Generated/
+.build/
+.swiftpm/
+DerivedData/
+*.ipa
+*.p8
+*.p12
+*.mobileprovision
+CLAUDE.md

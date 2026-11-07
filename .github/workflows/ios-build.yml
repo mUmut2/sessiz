@@ -1,0 +1,53 @@
+name: iOS build
+
+# macOS minutes cost 10x. Runs only on push to main (relevant paths) or manually.
+on:
+  push:
+    branches: [main]
+    paths:
+      - "App/**"
+      - "Extensions/**"
+      - "Packages/**"
+      - "project.yml"
+      - ".github/workflows/ios-build.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ios-build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: macos-26
+    timeout-minutes: 30
+    env:
+      # Pinned. Available on macos-26 image (checked 2026-11): 26.0.1, 26.1.1, 26.2, 26.3, 26.4.1, 26.5, 26.6 (default).
+      XCODE_PATH: /Applications/Xcode_26.6.app
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Select Xcode
+        run: |
+          sudo xcode-select -s "$XCODE_PATH"
+          xcodebuild -version
+
+      - name: Install XcodeGen
+        run: brew install xcodegen
+
+      - name: Generate project
+        run: xcodegen generate
+
+      - name: Build (unsigned)
+        run: |
+          set -o pipefail
+          xcodebuild build \
+            -project Sessiz.xcodeproj \
+            -scheme App \
+            -configuration Debug \
+            -destination 'generic/platform=iOS' \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY=""
